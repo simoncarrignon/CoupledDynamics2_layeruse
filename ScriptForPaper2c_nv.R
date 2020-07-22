@@ -1,10 +1,11 @@
-library(rlist)
+#library(rlist)
 library(igraph)
 library(boot)
 
-path0<-"C:/Users/matth/Dropbox/NinaCollab_Covid/paper2_where_dis_info/"
-path1<-"C:/Users/matth/Dropbox/NinaCollab_Covid/paper2_where_dis_info/networks2/"
-path2<-"C:/Users/matth/Dropbox/NinaCollab_Covid/paper2_where_dis_info/results/"
+path0<-""
+path1<-"networks2/"
+path2<-"results/"
+
 
 source(paste0(path0,"FunctionsForPaper2_nv.R"))
 
