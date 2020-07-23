@@ -231,26 +231,14 @@ for(t in 2:time){
 ########################################
 
 mod_concerns<-matrix(0,nr=10,nc=length(concern))
-
-for(i in 1:length(concern)){
-  mod_concerns[,i]<-aggregate(concern[[i]],by=list(pop_info$comms),mean)[,2]
-}
-
 mod_exps<-matrix(0,nr=10,nc=length(statuses))
-
-for(i in 1:length(statuses)){
-  mod_exps[,i]<-aggregate(statuses[[i]][,2],by=list(pop_info$comms),sum)[,2]
-}
-
 mod_infs<-matrix(0,nr=10,nc=length(statuses))
-
-for(i in 1:length(statuses)){
-  mod_infs[,i]<-aggregate(statuses[[i]][,4],by=list(pop_info$comms),sum)[,2]
-}
-
 mod_hosps<-matrix(0,nr=10,nc=length(statuses))
 
 for(i in 1:length(statuses)){
+  mod_concerns[,i]<-aggregate(concern[[i]],by=list(pop_info$comms),mean)[,2]
+  mod_exps[,i]<-aggregate(statuses[[i]][,2],by=list(pop_info$comms),sum)[,2]
+  mod_infs[,i]<-aggregate(statuses[[i]][,4],by=list(pop_info$comms),sum)[,2]
   mod_hosps[,i]<-aggregate(statuses[[i]][,5],by=list(pop_info$comms),sum)[,2]
 }
 
