@@ -1,10 +1,11 @@
 #library(rlist)
 library(igraph)
 library(boot)
+library(parallel)
 
 path0<-""
 path1<-"networks2/"
-path2<-"results/"
+path2<-"resultspar/"
 
 source(paste0(path0,"FunctionsForPaper2_nv.R"))
 
@@ -45,7 +46,9 @@ dis_mat<-par_ex(pop_info=pop_info,parents=parents,dis_mat=dis_mat)
 
 dis.eff<-c(0,0.1,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6)
 
-for(md in 1:50){
+cl <- makeForkCluster(8,outfile="")
+
+parLapply(cl,1:50,function(md){
 
 # Here we define the prior beliefs of young adults (which will be used as probabilities in a bernoulli draw)
 # e.g. currently there is a 50% chance a young adult of political belief A is concerned about the virus
@@ -218,13 +221,15 @@ for(t in 2:time){
     
     dis<-infection_timestep(pop_info=pop_info,status=statuses[[t-1]],net=dis_mat,d_exp=dis[[2]],d_inf1=dis[[3]],d_inf2=dis[[4]],d_inf3=dis[[5]],S_E=S_E,E_I1=E_I1,yI1_I2=yI1_I2,oI1_I2=oI1_I2,yI2_I3=yI2_I3,oI2_I3=oI2_I3,yI3_D=yI3_D,oI3_D=oI3_D,yI1_R=yI1_R,oI1_R=oI1_R,yI2_R=yI2_R,oI2_R=oI2_R,yI3_R=yI3_R,oI3_R=oI3_R)
   }
-  print(colSums(dis$status))
+  #print(colSums(dis$status))
   progression[t,]<-colSums(dis$status)
   statuses[[t]]<-dis$status
   
   if(sum(colSums(statuses[[t]])[c(2,3,4,5)])==0){break()}
   
 }
+
+print(paste("md:",md,"t:",t,"nt:",nt,"r:",r,"s:",s))
 
 
 ########################################
@@ -250,23 +255,24 @@ saveRDS(OUT, paste0(path2,"Anets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",
 ###################################
 ###################################
 
-cols=c("#332288", "#88CCEE", "#44AA99", "#117733", "#999933", "#DDCC77", "#661100", "#CC6677", "#882255", "#AA4499")
-
-plot(NULL,xlim=c(0,250),ylim=c(0,1))
-for(i in 1:10){
-  lines(x=seq(1,length(concern)),y=mod_concerns[i,],col=cols[i],lwd=3)
-}
-
-plot(NULL,xlim=c(0,250),ylim=c(0,50))
-for(i in 1:10){
-  lines(x=seq(1,length(statuses)),y=mod_infs[i,],col=cols[i],lwd=3)
-}
+#cols=c("#332288", "#88CCEE", "#44AA99", "#117733", "#999933", "#DDCC77", "#661100", "#CC6677", "#882255", "#AA4499")
+#
+#plot(NULL,xlim=c(0,250),ylim=c(0,1))
+#for(i in 1:10){
+#  lines(x=seq(1,length(concern)),y=mod_concerns[i,],col=cols[i],lwd=3)
+#}
+#
+#plot(NULL,xlim=c(0,250),ylim=c(0,50))
+#for(i in 1:10){
+#  lines(x=seq(1,length(statuses)),y=mod_infs[i,],col=cols[i],lwd=3)
+#}
 
 } #end r loop
   
 } #end s loop
 
-} #end md loop
+}) #end md loop
+stopCluster(cl)
 
 } #end nt loop 
 
