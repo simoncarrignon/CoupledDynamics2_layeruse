@@ -150,7 +150,7 @@ runModel <- function(time,dis_mat,start,pop_info,type="A",p_inf,lA_ex,lB_ex,l_co
             lines(x=seq(1,length(concern)),y=mod_concerns[i,],col=cols[i],lwd=3)
         }
 
-        plot(NULL,xlim=c(0,time),ylim=range(statuses))
+        plot(NULL,xlim=c(0,time),ylim=range(0,mod_infs))
         for(i in 1:10){
             lines(x=seq(1,length(statuses)),y=mod_infs[i,],col=cols[i],lwd=3)
         }

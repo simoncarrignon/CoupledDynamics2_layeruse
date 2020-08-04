@@ -4,7 +4,7 @@ source("model.R")
 allpararm=readRDS("listparams/Anets2mods1d_eff10p0.05.RDS")
 na=lapply(names(allpararm),function(a)assign(a,allpararm[[a]],pos=.GlobalEnv)) #this allow to assign all elements of the list as variable with the same name that there name in the list
 runModel(
-         time=time,
+         time=50,
           dis_mat=dis_mat,
           info_mat=info_mat,
          start=start,
@@ -36,6 +36,6 @@ runModel(
          outputname=outputname,
          log=F,
          minlog=T,
-         Xplot=F
+         Xplot=T
          )
 
