@@ -184,10 +184,12 @@ paramfilename=file.path("listparams",paste0(name,".RDS"))
 saveRDS(list_allparam,paramfilename)
 
 while(length(which(sapply(listsubproc,"[[","free")))<1){
-    Sys.sleep(5)
-    print(paste("no free slot among our", length(sapply(listsubproc,"[[","free")),"list of available CPU"))
-    print(paste(length(list.files(path2,pattern="*.RDS")),"simulations have finished so far"))
     listsubproc=checkHost(listsubproc)
+    if(length(which(sapply(listsubproc,"[[","free")))<1){
+        Sys.sleep(.1)
+        print(paste("no free slot among our", length(sapply(listsubproc,"[[","free")),"list of available CPU"))
+        print(paste(length(list.files(path2,pattern="*.RDS")),"simulations have finished so far"))
+    }
 }
 
 freehost=min(which(sapply(listsubproc,"[[","free")))
