@@ -161,6 +161,6 @@ runModel <- function(time,dis_mat,start,pop_info,type="A",p_inf,lA_ex,lB_ex,l_co
 
     if(is.null(outputname))return(OUT)
     else{
-        saveRDS(OUT, paste0(outputname,".RDS"))
+        saveRDS(OUT, paste0(outputname))
     }
 }
