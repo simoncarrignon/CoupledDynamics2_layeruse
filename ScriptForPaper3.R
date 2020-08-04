@@ -140,7 +140,7 @@ time<-300
 
 
 runModel(
-         time=5,
+         time=time,
          dis_mat=dis_mat,
          net=net,
          start=start,
