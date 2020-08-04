@@ -1,4 +1,5 @@
 library(boot)
+library(parallel)
 
 path0<-"./"
 path1<-"./networks2/"
@@ -6,8 +7,7 @@ path2<-"./resultsparcheck/"
 
 source(paste0(path0,"FunctionsForPaper2_nv.R"))
 source(paste0(path0,"model.R"))
-
-params1<-read.csv(paste0(path0,"model_params.csv"))
+ggparams1<-read.csv(paste0(path0,"model_params.csv"))
 params2<-read.csv(paste0(path0,"params1.csv"))
 #params2<-read.csv(paste0(path0,"model_params2.csv"))
 
@@ -47,7 +47,7 @@ dis.eff<-c(0,0.1,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6)
 
 cl <- makeForkCluster(50,outfile="")
 
-for(md in 1:50){
+parLapply(cl,1:50,function(md){
 
 # Here we define the prior beliefs of young adults (which will be used as probabilities in a bernoulli draw)
 # e.g. currently there is a 50% chance a young adult of political belief A is concerned about the virus
@@ -187,7 +187,7 @@ print("=====================================================")
   
 } #end s loop
 
-} #end md loop
+}) #end md loop
 
 } #end nt loop 
 
