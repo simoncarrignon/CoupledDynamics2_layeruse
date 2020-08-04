@@ -3,9 +3,12 @@
 #' @param dis_mat 
 #' @param net 
 #' @param start
-#' @param status dataframe with statistics for all status SEIRS
 #' @param belief
-runModel <- function(time,dis_mat,net,start,pop_info,current,type="A",inf,p_inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,l_inf_o,l_hea,l_hea_o,log=TRUE,S_E,E_I1,yI1_I2,oI1_I2,yI2_I3,oI2_I3,yI3_D,oI3_D,yI1_R,oI1_R,yI2_R,oI2_R,yI3_R,oI3_R,s,Xplot=F){
+#' @param log should the number of agent in each status being printed at each time step?
+#' @param minlog should the time step being printed?
+#' @param outputname a name to save the results of the simulation 
+
+runModel <- function(time,dis_mat,net,start,pop_info,current,type="A",inf,p_inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,l_inf_o,l_hea,l_hea_o,log=TRUE,S_E,E_I1,yI1_I2,oI1_I2,yI2_I3,oI2_I3,yI3_D,oI3_D,yI1_R,oI1_R,yI2_R,oI2_R,yI3_R,oI3_R,s,Xplot=F,minlog=F,outputname=NULL){
 
     concern<-list()
     belief<-list()
@@ -133,10 +136,6 @@ runModel <- function(time,dis_mat,net,start,pop_info,current,type="A",inf,p_inf,
         mod_hosps[,i]<-aggregate(statuses[[i]][,5],by=list(pop_info$comms),sum)[,2]
     }
 
-    OUT<-list(mod_concerns,mod_exps,mod_infs,mod_hosps)
-    names(OUT)<-c("concern","exps","infs","hosps")
-
-    saveRDS(OUT, paste0(path2,type,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_inf,".RDS"))
 
     ###################################
     ###################################
@@ -152,5 +151,13 @@ runModel <- function(time,dis_mat,net,start,pop_info,current,type="A",inf,p_inf,
         for(i in 1:10){
             lines(x=seq(1,length(statuses)),y=mod_infs[i,],col=cols[i],lwd=3)
         }
+    }
+
+    OUT<-list(mod_concerns,mod_exps,mod_infs,mod_hosps)
+    names(OUT)<-c("concern","exps","infs","hosps")
+
+    if(is.null(outputname))return(OUT)
+    else{
+        saveRDS(OUT, paste0(outputname,".RDS"))
     }
 }
