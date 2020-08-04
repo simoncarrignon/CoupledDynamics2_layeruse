@@ -1,3 +1,5 @@
+source("FunctionsForPaper2_nv.R")
+
 #' Main function that run the model other all networks
 #' @param time number of time step
 #' @param dis_mat 
@@ -7,7 +9,7 @@
 #' @param minlog should the time step being printed?
 #' @param outputname a name to save the results of the simulation 
 
-runModel <- function(time,dis_mat,start,pop_info,type="A",p_inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,l_inf_o,l_hea,l_hea_o,log=TRUE,S_E,E_I1,yI1_I2,oI1_I2,yI2_I3,oI2_I3,yI3_D,oI3_D,yI1_R,oI1_R,yI2_R,oI2_R,yI3_R,oI3_R,s,Xplot=F,minlog=F,outputname=NULL){
+runModel <- function(time,dis_mat,start,pop_info,type="A",p_inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,l_inf_o,l_hea,l_hea_o,log=TRUE,S_E,E_I1,yI1_I2,oI1_I2,yI2_I3,oI2_I3,yI3_D,oI3_D,yI1_R,oI1_R,yI2_R,oI2_R,yI3_R,oI3_R,info_mat,Xplot=F,minlog=F,outputname=NULL){
 
     concern<-list()
     belief<-list()
