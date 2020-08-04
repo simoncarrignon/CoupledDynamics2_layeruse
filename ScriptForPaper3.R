@@ -141,7 +141,8 @@ time<-3
 print("=====================================================")
 print(paste0("md:",md,",nt",nt,",type:",type,",s:",s,",r:",r))
 
-outputname=paste0(path2,type,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_infs[s])
+name=paste0(type,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_infs[s])
+outputname=file.path(path2,name)
  
 runModel(
          time=time,

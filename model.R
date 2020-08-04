@@ -7,7 +7,7 @@
 #' @param minlog should the time step being printed?
 #' @param outputname a name to save the results of the simulation 
 
-runModel <- function(time,dis_mat,start,pop_info,current,type="A",inf,p_inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,l_inf_o,l_hea,l_hea_o,log=TRUE,S_E,E_I1,yI1_I2,oI1_I2,yI2_I3,oI2_I3,yI3_D,oI3_D,yI1_R,oI1_R,yI2_R,oI2_R,yI3_R,oI3_R,s,Xplot=F,minlog=F,outputname=NULL){
+runModel <- function(time,dis_mat,start,pop_info,type="A",p_inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,l_inf_o,l_hea,l_hea_o,log=TRUE,S_E,E_I1,yI1_I2,oI1_I2,yI2_I3,oI2_I3,yI3_D,oI3_D,yI1_R,oI1_R,yI2_R,oI2_R,yI3_R,oI3_R,s,Xplot=F,minlog=F,outputname=NULL){
 
     concern<-list()
     belief<-list()
@@ -59,6 +59,7 @@ runModel <- function(time,dis_mat,start,pop_info,current,type="A",inf,p_inf,lA_e
                                                pop_info=pop_info,cut_to=0.001)
 
             inf<-cbind(sign(statuses[[t-1]]$I2+statuses[[t-1]]$I3),sign(statuses[[t-1]]$I2+statuses[[t-1]]$I3))
+
 
             if(type=="A"){
                 current<-concern_timestep1(pop_info=pop_info,net_b=info_mat,net_d=dis_mat,belief=start[[1]],concern=start[[2]],inf=inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,l_inf_o,l_hea,l_hea_o,p_inf=p_inf)
