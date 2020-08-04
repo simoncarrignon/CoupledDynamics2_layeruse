@@ -1,10 +1,13 @@
 source("model.R")
 
+args=commandArgs(trailingOnly = TRUE) #pass name of the file with arguments
 
-allpararm=readRDS("listparams/Anets2mods1d_eff10p0.05.RDS")
+file=args[1]#first argument is the number of slave
+
+allpararm=readRDS(file)
 na=lapply(names(allpararm),function(a)assign(a,allpararm[[a]],pos=.GlobalEnv)) #this allow to assign all elements of the list as variable with the same name that there name in the list
 runModel(
-         time=50,
+         time=time,
           dis_mat=dis_mat,
           info_mat=info_mat,
          start=start,
@@ -35,7 +38,7 @@ runModel(
          oI3_R=oI3_R,
          outputname=outputname,
          log=F,
-         minlog=T,
-         Xplot=T
+         minlog=F,
+         Xplot=F
          )
 
