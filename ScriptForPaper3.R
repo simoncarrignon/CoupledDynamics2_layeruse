@@ -1,5 +1,6 @@
 library(igraph)
 library(boot)
+library(parallel)
 
 path0<-"./"
 path1<-"./networks2/"
@@ -46,8 +47,9 @@ dis_mat<-par_ex(pop_info=pop_info,parents=parents,dis_mat=dis_mat)
 
 dis.eff<-c(0,0.1,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6)
 
+cl <- makeForkCluster(50,outfile="")
 
-for(md in 1:50){
+parLapply(cl,1:50,function(md){
 
 # Here we define the prior beliefs of young adults (which will be used as probabilities in a bernoulli draw)
 # e.g. currently there is a 50% chance a young adult of political belief A is concerned about the virus
@@ -139,7 +141,8 @@ time<-3
 print("=====================================================")
 print(paste0("md:",md,",nt",nt,",type:",type,",s:",s,",r:",r))
 
-outputname=paste0(path2,type,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_infs[s])
+name=paste0(type,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_infs[s])
+outputname=file.path(path2,name)
  
 runModel(
          time=time,
@@ -188,7 +191,8 @@ print("=====================================================")
   
 } #end s loop
 
-} #end md loop
+}) #end md loop
+stopCluster(cl)
 
 } #end nt loop 
 
