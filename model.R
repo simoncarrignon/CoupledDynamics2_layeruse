@@ -112,6 +112,7 @@ runModel <- function(time,dis_mat,net,start,pop_info,current,type="A",inf,p_inf,
             dis<-infection_timestep(pop_info=pop_info,status=statuses[[t-1]],net=dis_mat,d_exp=dis[[2]],d_inf1=dis[[3]],d_inf2=dis[[4]],d_inf3=dis[[5]],S_E=S_E,E_I1=E_I1,yI1_I2=yI1_I2,oI1_I2=oI1_I2,yI2_I3=yI2_I3,oI2_I3=oI2_I3,yI3_D=yI3_D,oI3_D=oI3_D,yI1_R=yI1_R,oI1_R=oI1_R,yI2_R=yI2_R,oI2_R=oI2_R,yI3_R=yI3_R,oI3_R=oI3_R)
         }
         if(log)print(colSums(dis$status))
+        if(minlog)print(paste0("t:",t))
         progression[t,]<-colSums(dis$status)
         statuses[[t]]<-dis$status
 
