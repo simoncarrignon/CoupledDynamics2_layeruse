@@ -88,9 +88,23 @@ runModel <- function(time,dis_mat,net,start,pop_info,current,type="A",inf,p_inf,
                                                pop_info=pop_info,cut_to=0.001)
 
             inf<-cbind(sign(statuses[[t-1]]$I2+statuses[[t-1]]$I3),sign(statuses[[t-1]]$I2+statuses[[t-1]]$I3))
-            current<-concern_timestep1(pop_info=pop_info,net_b=info_mat,net_d=dis_mat,belief=current[[1]],
-                                       concern=current[[2]],inf=inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,
-                                       l_inf_o,l_hea,l_hea_o,p_inf=p_inf)
+            if(type == "A")
+            {
+                current<-concern_timestep1(pop_info=pop_info,net_b=info_mat,net_d=dis_mat,belief=current[[1]],
+                                           concern=current[[2]],inf=inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,
+                                           l_inf_o,l_hea,l_hea_o,p_inf=p_inf)
+            }
+            if(type == "B")
+            {
+                current<-concern_timestep2(pop_info=pop_info,net_b=info_mat,net_d=dis_mat,belief=current[[1]],
+                                           concern=current[[2]],inf=inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,
+                                           l_inf_o,l_hea,l_hea_o,p_inf=p_inf)
+            }
+            if(type == "C"){
+                current<-concern_timestep3(pop_info=pop_info,net_b=info_mat,net_d=dis_mat,belief=current[[1]],
+                                           concern=current[[2]],inf=inf,lA_ex,lB_ex,l_conc,l_conc_o,l_inf,
+                                           l_inf_o,l_hea,l_hea_o,p_inf=p_inf)
+            }
 
             belief[[t]]<-current[[1]]
             concern[[t]]<-current[[2]]  
