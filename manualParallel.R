@@ -1,12 +1,14 @@
-#library(igraph)
-library(boot)
+old <- Sys.time() 
 
 path0<-"./"
 path1<-"./networks2/"
-path2<-"./resultsparcheck/"
+path2<-"./resultsparnew/"
 
 source(paste0(path0,"FunctionsForPaper2_nv.R"))
 source(paste0(path0,"model.R"))
+source(paste0(path0,"parrallelFunction.R"))
+
+listsubproc=generateListSubproc("hostandprocs.csv")
 
 params1<-read.csv(paste0(path0,"model_params.csv"))
 params2<-read.csv(paste0(path0,"params1.csv"))
@@ -14,7 +16,7 @@ params2<-read.csv(paste0(path0,"params1.csv"))
 
 net_params<-read.csv(paste0(path0,"network_params.csv"))
 
-for(type in c("A","B","C")){
+for(type in c("A","B","C")[1]){
 nt<-1
 #start loop over networks
 for(nt in 1:nrow(params1)){
@@ -113,6 +115,7 @@ for(md in 1:50){
 
 #Define a linear relationship between proportion of connections concerned (at the previous time-step) and concern levels in young adults
 l_conc<-params2[md,2]
+
 #and an additive effect used to calculate the same parameter for old adults
 l_conc_o<-0
 
@@ -135,17 +138,17 @@ l_inf_o<-0
 
 ############################################
 
-time<-3
+time<-20
 
 print("=====================================================")
 print(paste0("md:",md,",nt",nt,",type:",type,",s:",s,",r:",r))
 
 name=paste0(type,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_infs[s])
-outputname=file.path(path2,name)
+outputname=file.path(path2,paste0(name,".RDS"))
  
 ## this list is used to save all parameter in a fille that will be read by the sub process
 list_allparam=list(
- time=300,
+ time=time,
  dis_mat=dis_mat,
  info_mat=info_mat,
  start=start,
@@ -174,12 +177,28 @@ list_allparam=list(
  oI2_R=oI2_R,
  yI3_R=yI3_R,
  oI3_R=oI3_R,
+ minlog=T,
  outputname=outputname
 )
-saveRDS(list_allparam,file.path("listparams/",paste0(name,".RDS")))
+paramfilename=file.path("listparams",paste0(name,".RDS"))
+saveRDS(list_allparam,paramfilename)
 
-print("done")
-print("=====================================================")
+while(length(which(sapply(listsubproc,"[[","free")))<1){
+    Sys.sleep(5)
+    print(paste("no free slot among our", length(sapply(listsubproc,"[[","free")),"list of available CPU"))
+    print(paste(length(list.files(path2,pattern="*.RDS")),"simulations have finished so far"))
+    listsubproc=checkHost(listsubproc)
+}
+
+freehost=min(which(sapply(listsubproc,"[[","free")))
+listsubproc[[freehost]]$file=outputname
+listsubproc[[freehost]]$free=FALSE
+
+cmd=paste0('ssh ',listsubproc[[freehost]]$host,' "cd ',getwd(),'; Rscript launchOneSimu.R ',paramfilename,'> logs/',listsubproc[[freehost]]$host,"_",name,'.log "')
+#cmd=paste0("ssh ",listsubproc[[freehost]]$host," \"cd ",getwd(),"; Rscript launchOneSimu.R ",paramfilename,"> logs/",name,".log &\"\n")
+system(cmd,ignore.stderr=T,wait=F)
+
+print(paste("expe",name,"launched on",listsubproc[[freehost]]$host,"waiting for",outputname,"to finish"))
 ########################################
 ########################################
 
@@ -194,6 +213,8 @@ print("=====================================================")
 } #end type loop
 
 
+new <- Sys.time() - old # calculate difference
+print(new) # print in nice format
 
 
 
