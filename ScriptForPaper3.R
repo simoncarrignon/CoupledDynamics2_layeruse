@@ -135,7 +135,7 @@ oI3_R<-4.2
 
 ############################################
 
-time<-3
+time<-300
 
 print("=====================================================")
 print(paste0("md:",md,",nt",nt,",type:",type,",s:",s,",r:",r))
@@ -146,12 +146,9 @@ outputname=file.path(path2,name)
 runModel(
          time=time,
          dis_mat=dis_mat,
-         net=net,
          start=start,
          pop_info=pop_info,
-         current=current,
-         type="A",
-         inf=inf,
+         type=type,
          p_inf=p_infs[s],
          lA_ex=lA_ex,
          lB_ex=lB_ex,
