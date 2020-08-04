@@ -4,7 +4,7 @@ library(parallel)
 
 path0<-"./"
 path1<-"./networks2/"
-path2<-"./results/"
+path2<-"./resultsparcheck/"
 
 source(paste0(path0,"FunctionsForPaper2_nv.R"))
 source(paste0(path0,"model.R"))
@@ -136,9 +136,13 @@ oI3_R<-4.2
 
 ############################################
 
-time<-300
+time<-3
 
+print("=====================================================")
+print(paste0("md:",md,",nt",nt,",type:",type,",s:",s,",r:",r))
 
+outputname=paste0(path2,type,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_infs[s])
+ 
 runModel(
          time=time,
          dis_mat=dis_mat,
@@ -171,8 +175,14 @@ runModel(
          oI2_R=oI2_R,
          yI3_R=yI3_R,
          oI3_R=oI3_R,
+         outputname=outputname,
+         log=F,
+         minlog=T,
          Xplot=F
          )
+
+print("done")
+print("=====================================================")
 ########################################
 ########################################
 
