@@ -7,7 +7,7 @@ path2<-"./resultsparcheck/"
 
 source(paste0(path0,"FunctionsForPaper2_nv.R"))
 source(paste0(path0,"model.R"))
-ggparams1<-read.csv(paste0(path0,"model_params.csv"))
+params1<-read.csv(paste0(path0,"model_params.csv"))
 params2<-read.csv(paste0(path0,"params1.csv"))
 #params2<-read.csv(paste0(path0,"model_params2.csv"))
 
