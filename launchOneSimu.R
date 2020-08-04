@@ -1,3 +1,4 @@
+old <- Sys.time() 
 source("model.R")
 
 args=commandArgs(trailingOnly = TRUE) #pass name of the file with arguments
@@ -38,7 +39,11 @@ runModel(
          oI3_R=oI3_R,
          outputname=outputname,
          log=F,
-         minlog=F,
+         minlog=T,
          Xplot=F
          )
 
+file.remove(file)
+
+new <- Sys.time() - old # calculate difference
+print(new) # print in nice format
