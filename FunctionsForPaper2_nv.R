@@ -1,3 +1,6 @@
+require(boot)
+
+
 ###Population generation
 
 pop_gen<-function(pop_size=1000,ncomms=10,prop_belA=0.5,prop_old=0.3,prop_young=0.5, prop_child=0.2){
