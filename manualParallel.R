@@ -1,3 +1,4 @@
+#library(igraph)
 library(boot)
 
 path0<-"./"
@@ -44,11 +45,6 @@ dis_mat<-par_ex(pop_info=pop_info,parents=parents,dis_mat=dis_mat)
 ############################################
 
 dis.eff<-c(0,0.1,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6)
-
-cl <- makeForkCluster(50,outfile="")
-
-for(md in 1:50){
-
 # Here we define the prior beliefs of young adults (which will be used as probabilities in a bernoulli draw)
 # e.g. currently there is a 50% chance a young adult of political belief A is concerned about the virus
 A_concern_y<-0.2
@@ -65,29 +61,9 @@ B_concern_o<-0
 lA_ex<- 0
 lB_ex<- 0
 
-#Define a linear relationship between proportion of connections concerned (at the previous time-step) and concern levels in young adults
-l_conc<-params2[md,2]
-#and an additive effect used to calculate the same parameter for old adults
-l_conc_o<-0
-
-
-#Define a threshold relationship whereby concern decreases while all immediate network conncections are fully healthy (at the previous time-step) and concern levels in young adults
-l_hea<-params2[md,3]
-#and an additive effect used to calculate the same parameter for old adults
-l_hea_o<-0
-
 #This now needs to be changed as a parameter
 p_infs<-c(0.05,0.2,0.5)
 
-for(s in 1:3){
-
-for(r in 1:10){
-
-#Define a linear relationship between number of connections infected (at the previous time-step) and concern levels in young adults
-l_inf<-dis.eff[r]
-  #and an additive effect used to calculate the same parameter for old adults
-l_inf_o<-0
-  
   
 start<-concern_setup(A_concern_y,B_concern_y,A_concern_o,B_concern_o,pop_info,info_mat)
 
@@ -132,9 +108,34 @@ yI3_R<-4.2
 #and same for old
 oI3_R<-4.2
 
+for(md in 1:50){
+
+
+#Define a linear relationship between proportion of connections concerned (at the previous time-step) and concern levels in young adults
+l_conc<-params2[md,2]
+#and an additive effect used to calculate the same parameter for old adults
+l_conc_o<-0
+
+
+#Define a threshold relationship whereby concern decreases while all immediate network conncections are fully healthy (at the previous time-step) and concern levels in young adults
+l_hea<-params2[md,3]
+#and an additive effect used to calculate the same parameter for old adults
+l_hea_o<-0
+
+
+for(s in 1:3){
+
+for(r in 1:10){
+
+#Define a linear relationship between number of connections infected (at the previous time-step) and concern levels in young adults
+l_inf<-dis.eff[r]
+  #and an additive effect used to calculate the same parameter for old adults
+l_inf_o<-0
+  
+
 ############################################
 
-time<-300
+time<-3
 
 print("=====================================================")
 print(paste0("md:",md,",nt",nt,",type:",type,",s:",s,",r:",r))
@@ -142,41 +143,40 @@ print(paste0("md:",md,",nt",nt,",type:",type,",s:",s,",r:",r))
 name=paste0(type,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_infs[s])
 outputname=file.path(path2,name)
  
-runModel(
-         time=time,
-         dis_mat=dis_mat,
-         info_mat=info_mat,
-         start=start,
-         pop_info=pop_info,
-         type=type,
-         p_inf=p_infs[s],
-         lA_ex=lA_ex,
-         lB_ex=lB_ex,
-         l_conc=l_conc,
-         l_conc_o=l_conc_o,
-         l_inf=l_inf,
-         l_inf_o=l_inf_o,
-         l_hea=l_hea,
-         l_hea_o=l_hea_o,
-         S_E=S_E,
-         E_I1=E_I1,
-         yI1_I2=yI1_I2,
-         oI1_I2=oI1_I2,
-         yI2_I3=yI2_I3,
-         oI2_I3=oI2_I3,
-         yI3_D=yI3_D,
-         oI3_D=oI3_D,
-         yI1_R=yI1_R,
-         oI1_R=oI1_R,
-         yI2_R=yI2_R,
-         oI2_R=oI2_R,
-         yI3_R=yI3_R,
-         oI3_R=oI3_R,
-         outputname=outputname,
-         log=F,
-         minlog=T,
-         Xplot=F
-         )
+## this list is used to save all parameter in a fille that will be read by the sub process
+list_allparam=list(
+ time=300,
+ dis_mat=dis_mat,
+ info_mat=info_mat,
+ start=start,
+ pop_info=pop_info,
+ type=type,
+ p_inf=p_infs[s],
+ lA_ex=lA_ex,
+ lB_ex=lB_ex,
+ l_conc=l_conc,
+ l_conc_o=l_conc_o,
+ l_inf=l_inf,
+ l_inf_o=l_inf_o,
+ l_hea=l_hea,
+ l_hea_o=l_hea_o,
+ S_E=S_E,
+ E_I1=E_I1,
+ yI1_I2=yI1_I2,
+ oI1_I2=oI1_I2,
+ yI2_I3=yI2_I3,
+ oI2_I3=oI2_I3,
+ yI3_D=yI3_D,
+ oI3_D=oI3_D,
+ yI1_R=yI1_R,
+ oI1_R=oI1_R,
+ yI2_R=yI2_R,
+ oI2_R=oI2_R,
+ yI3_R=yI3_R,
+ oI3_R=oI3_R,
+ outputname=outputname
+)
+saveRDS(list_allparam,file.path("listparams/",paste0(name,".RDS")))
 
 print("done")
 print("=====================================================")

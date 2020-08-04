@@ -142,14 +142,15 @@ runModel <- function(time,dis_mat,start,pop_info,type="A",p_inf,lA_ex,lB_ex,l_co
     ###################################
     ###################################
     if(Xplot){
+        par(mfrow=c(2,1))
         cols=c("#332288", "#88CCEE", "#44AA99", "#117733", "#999933", "#DDCC77", "#661100", "#CC6677", "#882255", "#AA4499")
 
-        plot(NULL,xlim=c(0,250),ylim=c(0,1))
+        plot(NULL,xlim=c(0,time),ylim=c(0,1))
         for(i in 1:10){
             lines(x=seq(1,length(concern)),y=mod_concerns[i,],col=cols[i],lwd=3)
         }
 
-        plot(NULL,xlim=c(0,250),ylim=c(0,50))
+        plot(NULL,xlim=c(0,time),ylim=range(0,mod_infs))
         for(i in 1:10){
             lines(x=seq(1,length(statuses)),y=mod_infs[i,],col=cols[i],lwd=3)
         }
