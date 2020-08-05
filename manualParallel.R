@@ -16,7 +16,7 @@ params2<-read.csv(paste0(path0,"params1.csv"))
 
 net_params<-read.csv(paste0(path0,"network_params.csv"))
 
-for(type in c("A","B","C")[1]){
+for(type in c("A","B","C")){
 nt<-1
 #start loop over networks
 for(nt in 1:nrow(params1)){
