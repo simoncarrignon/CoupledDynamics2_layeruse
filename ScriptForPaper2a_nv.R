@@ -75,9 +75,9 @@ l_hea<-params2[md,3]
 l_hea_o<-0
 
 #This now needs to be changed as a parameter
-p_infs<-c(0.05,0.2,0.5)
+p_infs<-c(0.05,0.2,0.5,1)
 
-for(s in 1:3){
+for(s in 1:4){
 
 for(r in 1:10){
 
