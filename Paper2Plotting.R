@@ -1,12 +1,12 @@
 library(lme4)
 library(viridis)
 
-path0<-"C:/Users/matth/Dropbox/NinaCollab_Covid/paper2_where_dis_info/"
+path0<-"./"
 
-params1<-read.csv(paste0(path0,"model_params.csv"))
-params2<-read.csv(paste0(path0,"params1.csv"))
+params1<-read.csv(file.path(path0,"model_params.csv"))
+params2<-read.csv(file.path(path0,"params1.csv"))
 
-path<-"C:/Users/matth/Dropbox/NinaCollab_Covid/paper2_where_dis_info/resultsNEW/"
+path<-"./results"
 
 conc_res<-list()
 exp_res<-list()
@@ -19,7 +19,7 @@ for(lt in c("A","B")){
     for(md in seq(1,50,1)){
       for(r in 1:10){
         for(p in c(0.05,0.2,0.5)){
-          tmp_in<-readRDS(paste0(path,lt,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p,".RDS"))
+          tmp_in<-readRDS(file.path(path,paste0(lt,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p,".RDS")))
           conc_res[[c]]<-tmp_in[[1]]
           exp_res[[c]]<-tmp_in[[2]]
           inf_res[[c]]<-tmp_in[[3]]
@@ -174,12 +174,12 @@ Aw<-c(0,0.1,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6)
 ######################################################################################
 
 
-path0<-"C:/Users/matth/Dropbox/NinaCollab_Covid/paper2_where_dis_info/"
+path0<-"./"
 
-params1<-read.csv(paste0(path0,"model_params.csv"))
-params2<-read.csv(paste0(path0,"params1.csv"))
+params1<-read.csv(file.path(path0,"model_params.csv"))
+params2<-read.csv(file.path(path0,"params1.csv"))
 
-path<-"C:/Users/matth/Dropbox/NinaCollab_Covid/paper2_where_dis_info/results/"
+path<-"./results"
 
 conc_res<-list()
 exp_res<-list()
@@ -191,7 +191,7 @@ for(lt in c("A","B","C","D")){
   for(nt in c(1,2,3,4,5,6,7,8,9)){
     for(md in seq(1,50,1)){
       for(r in 1:10){
-        tmp_in<-readRDS(paste0(path,lt,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,".RDS"))
+        tmp_in<-readRDS(file.pat(path,hpaste0(lt,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,".RDS")))
         conc_res[[c]]<-tmp_in[[1]]
         exp_res[[c]]<-tmp_in[[2]]
         inf_res[[c]]<-tmp_in[[3]]
@@ -443,8 +443,8 @@ par(xpd=FALSE)
 
 #Figure 5
 
-pathp<-"C:/Users/matth/Dropbox/NinaCollab_Covid/"
-pathn<-"C:/Users/matth/Dropbox/NinaCollab_Covid/networks2/"
+pathp<-""
+pathn<-"networks2/"
 
 source(paste0(pathp,"FunctionsForHealthPaper.r"))
 
