@@ -15,7 +15,7 @@ Content:
 In order to run the model you will need to install the libraries used. To do that one can open R and  do:
 
 ```R
-install.packages("igraph","boost","rlist")
+install.packages(c("igraph","boost","rlist"))
 ```
 
 Then, to run all simulation one can do from the command line::
