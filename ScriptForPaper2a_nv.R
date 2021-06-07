@@ -2,9 +2,9 @@ library(rlist)
 library(igraph)
 library(boot)
 
-path0<-""
-path1<-"networks2/"
-path2<-"results/"
+path0<-"."
+path1<-"networks2"
+path2<-"results"
 
 source(file.path(path0,"FunctionsForPaper2_nv.R"))
 

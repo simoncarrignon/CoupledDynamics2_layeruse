@@ -1,12 +1,12 @@
 library(lme4)
 library(viridis)
 
-path0<-"./"
+path0<-"."
 
 params1<-read.csv(file.path(path0,"model_params.csv"))
 params2<-read.csv(file.path(path0,"params1.csv"))
 
-path<-"./results"
+path<-"results"
 
 conc_res<-list()
 exp_res<-list()
@@ -174,12 +174,12 @@ Aw<-c(0,0.1,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6)
 ######################################################################################
 
 
-path0<-"./"
+path0<-"."
 
 params1<-read.csv(file.path(path0,"model_params.csv"))
 params2<-read.csv(file.path(path0,"params1.csv"))
 
-path<-"./results"
+path<-"results"
 
 conc_res<-list()
 exp_res<-list()
@@ -443,8 +443,8 @@ par(xpd=FALSE)
 
 #Figure 5
 
-pathp<-"./"
-pathn<-"networks2/"
+pathp<-"."
+pathn<-"networks2"
 
 source(file.path(pathp,"FunctionsForPaper2_nv.R"))
 
