@@ -191,7 +191,7 @@ for(lt in c("A","B","C","D")){
   for(nt in c(1,2,3,4,5,6,7,8,9)){
     for(md in seq(1,50,1)){
       for(r in 1:10){
-        tmp_in<-readRDS(file.pat(path,hpaste0(lt,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,".RDS")))
+        tmp_in<-readRDS(file.path(path,paste0(lt,"nets",params1$NetSelect[nt],"mods",md,"d_eff",r,".RDS")))
         conc_res[[c]]<-tmp_in[[1]]
         exp_res[[c]]<-tmp_in[[2]]
         inf_res[[c]]<-tmp_in[[3]]
@@ -443,15 +443,15 @@ par(xpd=FALSE)
 
 #Figure 5
 
-pathp<-""
+pathp<-"./"
 pathn<-"networks2/"
 
-source(paste0(pathp,"FunctionsForHealthPaper.r"))
+source(file.path(pathp,"FunctionsForPaper2_nv.R"))
 
-params1<-read.csv(paste0(pathp,"model_params.csv"))
-params2<-read.csv(paste0(pathp,"model_params2.csv"))
+params1<-read.csv(file.path(pathp,"model_params.csv"))
+params2<-read.csv(file.path(pathp,"model_params2.csv"))
 
-net_params<-read.csv(paste0(pathp,"network_params.csv"))
+net_params<-read.csv(file.path(pathp,"network_params.csv"))
 
 dis_mats<-list()
 info_mats<-list()
@@ -472,8 +472,8 @@ for(nt in 1:nrow(params1)){
   
   ############################################
   
-  dis_input<-readRDS(paste0(pathn,params1[nt,3],"net_and_parents.RDS"))
-  info_input<-readRDS(paste0(pathn,params1[nt,2],"net_and_parents.RDS"))
+  dis_input<-readRDS(file.path(pathn,paste0(params1[nt,3],"net_and_parents.RDS")))
+  info_input<-readRDS(file.path(pathn,paste0(params1[nt,2],"net_and_parents.RDS")))
   
   parents<-info_input[[2]]
   dis_mat<-dis_input[[1]]

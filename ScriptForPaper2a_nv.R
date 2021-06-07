@@ -6,13 +6,13 @@ path0<-""
 path1<-"networks2/"
 path2<-"results/"
 
-source(paste0(path0,"FunctionsForPaper2_nv.R"))
+source(file.path(path0,"FunctionsForPaper2_nv.R"))
 
-params1<-read.csv(paste0(path0,"model_params.csv"))
-params2<-read.csv(paste0(path0,"params1.csv"))
+params1<-read.csv(file.path(path0,"model_params.csv"))
+params2<-read.csv(file.path(path0,"params1.csv"))
 #params2<-read.csv(paste0(path0,"model_params2.csv"))
 
-net_params<-read.csv(paste0(path0,"network_params.csv"))
+net_params<-read.csv(file.path(path0,"network_params.csv"))
 
 nt<-1
 #start loop over networks
@@ -32,8 +32,8 @@ pop_info<-pop_gen(pop_size,ncomms,prop_belA,prop_old,prop_young,prop_child)
 
 ############################################
 
-dis_input<-readRDS(paste0(path1,params1[nt,3],"net_and_parents.RDS"))
-info_input<-readRDS(paste0(path1,params1[nt,2],"net_and_parents.RDS"))
+dis_input<-readRDS(file.path(path1,paste0(params1[nt,3],"net_and_parents.RDS")))
+info_input<-readRDS(file.path(path1,paste0(params1[nt,2],"net_and_parents.RDS")))
 
 parents<-info_input[[2]]
 dis_mat<-dis_input[[1]]
@@ -257,7 +257,7 @@ for(i in 1:length(statuses)){
 OUT<-list(mod_concerns,mod_exps,mod_infs,mod_hosps)
 names(OUT)<-c("concern","exps","infs","hosps")
 
-saveRDS(OUT, paste0(path2,"Anets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_infs[s],".RDS"))
+saveRDS(OUT, file.path(path2,paste0("Anets",params1$NetSelect[nt],"mods",md,"d_eff",r,"p",p_infs[s],".RDS")))
 
 ###################################
 ###################################
