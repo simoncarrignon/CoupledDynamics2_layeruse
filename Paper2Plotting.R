@@ -449,7 +449,6 @@ pathn<-"networks2"
 source(file.path(pathp,"FunctionsForPaper2_nv.R"))
 
 params1<-read.csv(file.path(pathp,"model_params.csv"))
-params2<-read.csv(file.path(pathp,"model_params2.csv"))
 
 net_params<-read.csv(file.path(pathp,"network_params.csv"))
 
